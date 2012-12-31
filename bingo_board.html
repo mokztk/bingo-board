@@ -5,7 +5,36 @@
     <title>BINGO Board</title>
     <script type="text/javascript" src="jquery-1.8.3.min.js"></script>
     <script type="text/javascript">
-
+        $(function(){
+            for (var i = 1; i <= 75; i++){
+                var cell = "#cell" + ("00" + i).slice(-2);
+                // DOM要素に番号と色を保存しておく
+                $(cell).data("num", i);
+                $(cell).data("bg" , "black");
+                // シングルクリックで黒→色に変える
+                $(cell).click(function(e){
+                    // B I N G O の列で色を変える
+                    var color = [
+                            "#ffffff",
+                            "#8080ff",
+                            "#ffff80",
+                            "#80ff80",
+                            "#ff8080"
+                        ][Math.floor(($(this).data("num")-1)/15)];
+                    if ($(this).data("bg") == "black"){
+                        $(this).css("backgroundColor", color);
+                        $(this).data("bg", color);
+                    }
+                });
+                // ダブルクリックで黒に戻す
+                $(cell).dblclick(function(e){
+                    if ($(this).data("bg") != "black"){
+                        $(this).css("backgroundColor", "black");
+                        $(this).data("bg", "black");
+                    }
+                });
+            }
+        });
     </script>
     <style type="text/css">
         html, body, table {

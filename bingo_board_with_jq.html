@@ -10,10 +10,10 @@
     <script type="text/javascript">
         $(function(){
             // 各セルのDOM要素に色を保存しておく（初期値はすべて "black"）
-            $("td").data("bg" , "black");
+            $("td[id^=cell]").data("bg" , "black");
             
             // シングルクリックで黒→色に変える
-            $("td").click(function(e){
+            $("td[id^=cell]").click(function(){
                 // B I N G O の列で色を変える
                 var color = [
                         "#ffffff",
@@ -26,23 +26,29 @@
                     $(this).css("backgroundColor", color);
                     $(this).data("bg", color);
                 }
-                // テキスト選択を解除
-                window.getSelection ?
-                    window.getSelection().removeAllRanges() :
-                    document.selection.empty();
+                
+                removeSelection();
             });
             
             // ダブルクリックで黒に戻す
-            $("td").dblclick(function(e){
+            $("td[id^=cell]").dblclick(function(){
                 if ($(this).data("bg") != "black"){
                     $(this).css("backgroundColor", "black");
                     $(this).data("bg", "black");
                 }
-                // テキスト選択を解除
-                window.getSelection ?
-                    window.getSelection().removeAllRanges() :
-                    document.selection.empty();
+                
+                removeSelection();
             });
+            
+            // テキスト選択を解除
+            var removeSelection = function(){
+                if (window.getSelection){
+                    window.getSelection().removeAllRanges();
+                } else {
+                    // for IE
+                    document.selection.empty();
+                }
+            }
         });
     </script>
     <style type="text/css">
